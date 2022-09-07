@@ -76,9 +76,13 @@ It looks like you are setting up a website for a workshop but you haven't specif
 {% endif %}
 
 {% comment %}
-Read correct lesson meta from esciencecenter-digital-skills/workshop-metadata
+Read correct lesson meta from esciencecenter-digital-skills/workshop-metadata, for data carpentry we include the flavor.
 {% endcomment %}
+{% if info.carpentry == "dc" %}
+{% capture lesson_meta %}https://raw.githubusercontent.com/esciencecenter-digital-skills/workshop-metadata/main/{{info.curriculum}}-{{info.flavor}}{% endcapture %}
+{% else %}
 {% capture lesson_meta %}https://raw.githubusercontent.com/esciencecenter-digital-skills/workshop-metadata/main/{{info.curriculum}}{% endcapture %}
+{% endif %}
 
 
 {% comment %}
@@ -401,7 +405,14 @@ of code below the Schedule `<h2>` header below with
 `{% include custom-schedule.html %}`.
 {% endcomment %}
 
-{% if info.carpentry == "ds" %}
+
+{% comment %}
+SYLLABUS
+
+Show the workshop's syllabus, comes from workshop metadata
+{% endcomment %}
+
+{% if info.carpentry == "ds" or info.carpentry == "dc" %}
 <h2 id="syllabus">Syllabus</h2>
 {% remote_include {{lesson_meta}}/syllabus.md %}
 {% endif %}
